@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment';
+import { useTodosContext } from './todoContext';
 
-export const TodoForm = ({ todo, onSubmit, onDelete, onComplete }) => {
+export const TodoForm = ({ todo }) => {
+  const { addTodo, updateTodo, completeTodo, deleteTodo } = useTodosContext();
+
   const [id, setId] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
@@ -18,9 +21,11 @@ export const TodoForm = ({ todo, onSubmit, onDelete, onComplete }) => {
     }
   }, [todo])
 
+  const isNew = todo?.id === undefined;
+
   const handleSubmit = () => {
     const formData = { id, description, dueDate, priority, complete };
-    onSubmit(formData);
+    isNew ? addTodo(formData) : updateTodo(formData);
   }
 
   return (
@@ -62,8 +67,12 @@ export const TodoForm = ({ todo, onSubmit, onDelete, onComplete }) => {
               </div>
           </div>
         <input className='button' type='submit' onClick={handleSubmit} value={todo ? 'Edit' : 'Create' } />
-        {onComplete && <input className='button' type='submit' onClick={() => onComplete(todo.id)} value='Complete' />}
-        {onDelete && <input className='button' type='submit' onClick={() => onDelete(todo.id)} value='Delete' />}
+        {!isNew && (
+          <>
+            <input className='button' type='submit' onClick={() => completeTodo(todo)} value='Complete' />
+            <input className='button' type='submit' onClick={() => deleteTodo(todo.id)} value='Delete' />
+          </>
+        )}
       </form>
     </div>
   )

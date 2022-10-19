@@ -1,54 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import moment from 'moment';
+import React, { useEffect } from 'react'
 import { TodoForm } from './todoForm';
+import { TodoProvider, useTodosContext } from './todoContext';
 
-const url = 'http://localhost:3001/tasks';
-const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-};
-
-export const Todos = () => {
-  const [todos, setTodos] = useState([]);
-  const [refetch, setRefetch] = useState(false);
+const TodosContent = () => {
+  const {
+    todos,
+    setTodos,
+    refetch,
+    getTodos,
+    addTodo,
+    updateTodo,
+    completeTodo,
+    deleteTodo
+  } = useTodosContext();
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => setTodos(data))
-      .catch(() => alert('There was an issue with getting todos.'))
-  }, [refetch])
-
-  const getFormData = (todo, isNew = false) => {
-    const formData = new FormData();
-    if (!isNew) formData.id = parseInt(todo.id);
-    formData.description = todo.description;
-    formData.dueDate = moment(todo.dueDate).toISOString();
-    formData.priority = parseInt(todo.priority);
-    formData.complete = todo.complete;
-    return formData;
-  }
-
-  const fetcher = (method, formData) => {
-    const params = formData.id ? `/${formData.id}` : ''
-    const currentUrl = `${url}${params}`;
-
-    fetch(currentUrl, { method: method, headers: headers, body: JSON.stringify(formData)})
-      .then((response) => response.json())
-      .then(() => setRefetch(!refetch));
-  }
-
-  const addTodo = (todo) => fetcher('POST', getFormData(todo, true));
-
-  const updateTodo = (todo) => fetcher('PUT', getFormData(todo));
-
-  const completeTodo = (id) => fetcher('PUT', {id: id, complete: true});
-
-  const deleteTodo = (id) => {
-    fetch(`${url}/${id}`, { method: 'DELETE' })
-      .then((response) => response.json())
-      .then(() => setRefetch(!refetch));
-  }
+    getTodos();
+  }, [refetch, setTodos]);
 
   const todoFormsContent = todos.map((todo) => (
     <TodoForm
@@ -76,3 +44,9 @@ export const Todos = () => {
     </div>
   );
 }
+
+export const Todos = () => (
+  <TodoProvider>
+    <TodosContent />
+  </TodoProvider>
+);
