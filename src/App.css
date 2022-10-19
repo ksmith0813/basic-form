@@ -1,0 +1,27 @@
+.todo-container {
+  padding: 2rem;
+}
+
+.existing-todos {
+  padding-top: 2rem;
+}
+
+.todo-form {
+  width: 300px;
+  padding-top: 1rem;
+}
+
+.todo-form div {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding-bottom: 1rem;
+}
+
+.todo-form div .complete {
+  width: 20px;
+}
+
+.todo-form .button {
+  margin-right: 1rem;
+}
