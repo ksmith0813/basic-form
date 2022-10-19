@@ -31,7 +31,6 @@ export const TodoProvider = ({ children }) => {
   }
 
   const fetcher = (method, formData) => {
-    debugger;
     const params = formData.id ? `/${formData.id}` : ''
     const currentUrl = `${url}${params}`;
 
