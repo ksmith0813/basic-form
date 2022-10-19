@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import { TodoForm } from './todoForm';
 
+const url = 'http://localhost:3001/tasks';
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
@@ -10,8 +11,6 @@ const headers = {
 export const Todos = () => {
   const [todos, setTodos] = useState([]);
   const [refetch, setRefetch] = useState(false);
-
-  const url = 'http://localhost:3001/tasks';
 
   useEffect(() => {
     fetch(url)
@@ -33,7 +32,7 @@ export const Todos = () => {
   const fetcher = (method, formData) => {
     const params = formData.id ? `/${formData.id}` : ''
     const currentUrl = `${url}${params}`;
-    
+
     fetch(currentUrl, { method: method, headers: headers, body: JSON.stringify(formData)})
       .then((response) => response.json())
       .then(() => setRefetch(!refetch));
@@ -75,5 +74,5 @@ export const Todos = () => {
         {todosContent}
       </div>
     </div>
-  )
+  );
 }
