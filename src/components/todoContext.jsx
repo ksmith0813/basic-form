@@ -27,11 +27,7 @@ export const TodoProvider = ({ children }) => {
 
   const completeTodo = (todo) => fetcher('PUT', { ...todo, complete: true });
 
-  const deleteTodo = (id) => {
-    fetch(`${url}/${id}`, { method: 'DELETE' })
-      .then((response) => response.json())
-      .then(() => setRefetch(!refetch));
-  }
+  const deleteTodo = (todo) => fetcher('DELETE', todo);
 
   const contextValues = {
     url,

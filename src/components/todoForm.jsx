@@ -5,72 +5,57 @@ import { useTodosContext } from './todoContext';
 export const TodoForm = ({ todo }) => {
   const { addTodo, updateTodo, completeTodo, deleteTodo } = useTodosContext();
 
-  const [id, setId] = useState('');
-  const [description, setDescription] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [priority, setPriority] = useState('');
-  const [complete, setComplete] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState({});
 
-  useEffect(() => {
-    if (todo) {
-      setId(todo.id);
-      setDescription(todo.description);
-      setDueDate(todo.dueDate);
-      setPriority(todo.priority);
-      setComplete(todo.complete);
-    }
-  }, [todo])
+  useEffect(() =>  todo && setCurrentTodo(todo), [todo]);
 
-  const isNew = todo?.id === undefined;
+  const isNew = currentTodo?.id === undefined;
 
-  const handleSubmit = () => {
-    const formData = { id, description, dueDate, priority, complete };
-    isNew ? addTodo(formData) : updateTodo(formData);
-  }
+  const handleSubmit = () => isNew ? addTodo(currentTodo) : updateTodo(currentTodo);
 
   return (
     <div>
       <form className='todo-form'>
         <div>
-          <input value={id || ''} type='hidden' name='id'  />
+          <input value={currentTodo?.id || ''} type='hidden' name='id'  />
           <span>Description</span>
           <input
-            value={description || ''}
+            value={currentTodo.description || ''}
             name='description'           
             type='text'
-            onChange={(e) => setDescription(e.target.value)} />
+            onChange={(e) => setCurrentTodo({ ...currentTodo, description: e.target.value} )} />
           </div>
           <div>
             <span>Due Date</span>
             <input
-              value={dueDate ? moment(dueDate).format('MM/DD/YYYY') : ''}
+              value={currentTodo?.dueDate ? moment(currentTodo.dueDate, 'MM/DD/YYYY').format('MM/DD/YYYY') : ''}
               name='dueDate'
               type='text'
-              onChange={(e) => setDueDate(e.target.value)} />
+              onChange={(e) => setCurrentTodo({ ...currentTodo, dueDate: e.target.value })} />
           </div>
           <div>
             <span>Priority</span>
             <input
-              value={priority || ''}
+              value={currentTodo?.priority || ''}
               name='priority'
               type='text'
-              onChange={(e) => setPriority(e.target.value)} />
+              onChange={(e) => setCurrentTodo({ ...currentTodo, priority: e.target.value })} />
           </div>
           <div>
             <div className='complete'>
               <span>Complete</span>
               <input
-                checked={complete}
+                checked={currentTodo?.complete || false}
                 name='complete' 
                 type='checkbox'
-                onChange={(e) => setComplete(e.target.checked)} />
+                onChange={(e) => setCurrentTodo({ ...currentTodo, complete: e.target.checked })} />
               </div>
           </div>
         <input className='button' type='submit' onClick={handleSubmit} value={todo ? 'Edit' : 'Create' } />
         {!isNew && (
           <>
             <input className='button' type='submit' onClick={() => completeTodo(todo)} value='Complete' />
-            <input className='button' type='submit' onClick={() => deleteTodo(todo.id)} value='Delete' />
+            <input className='button' type='submit' onClick={() => deleteTodo(todo)} value='Delete' />
           </>
         )}
       </form>
