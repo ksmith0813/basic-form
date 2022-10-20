@@ -4,10 +4,10 @@ import { TodoProvider, useTodosContext } from './todoContext';
 
 const TodosContent = () => {
   const {
+    url,
     todos,
-    setTodos,
     refetch,
-    getTodos,
+    setTodos,
     addTodo,
     updateTodo,
     completeTodo,
@@ -15,8 +15,11 @@ const TodosContent = () => {
   } = useTodosContext();
 
   useEffect(() => {
-    getTodos();
-  }, [refetch, setTodos]);
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setTodos(data))
+      .catch(() => alert('There was an issue with getting todos.'));
+  }, [url, refetch, setTodos]);
 
   const todoFormsContent = todos.map((todo) => (
     <TodoForm
