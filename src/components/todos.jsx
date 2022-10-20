@@ -3,7 +3,7 @@ import { TodoForm } from './todoForm';
 import { TodoProvider, useTodosContext } from './todoContext';
 
 const TodosContent = () => {
-  const { url, todos, refetch, setTodos, addTodo, updateTodo, completeTodo, deleteTodo } = useTodosContext();
+  const { url, todos, refetch, setTodos, addTodo } = useTodosContext();
 
   useEffect(() => {
     fetch(url)
@@ -12,14 +12,7 @@ const TodosContent = () => {
       .catch(() => alert('There was an issue with getting todos.'));
   }, [url, refetch, setTodos]);
 
-  const todoFormsContent = todos.map((todo) => (
-    <TodoForm
-      key={todo.id}
-      todo={todo}
-      onSubmit={updateTodo}
-      onDelete={deleteTodo}
-      onComplete={completeTodo} />
-  ));
+  const todoFormsContent = todos.map((todo) => <TodoForm key={todo.id} todo={todo} />);
 
   const todosContent = todos?.length ? (
     <div className='existing-todos'>
