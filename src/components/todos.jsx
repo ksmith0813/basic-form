@@ -14,20 +14,18 @@ const TodosContent = () => {
 
   const todoFormsContent = todos.map((todo) => <TodoForm key={todo.id} todo={todo} />);
 
-  const todosContent = todos?.length ? (
+  const todosContent = todos.length > 0 && (
     <div className='existing-todos'>
       <b>Manage Todos</b>
       {todoFormsContent}
     </div>
-  ) : undefined;
+  );
 
   return (
     <div className='todo-container'>
-      <div>
-        <b>Add New Todo</b>
-        <TodoForm />
-        {todosContent}
-      </div>
+       <b>Add New Todo</b>
+      <TodoForm />
+      {todosContent}
     </div>
   );
 }

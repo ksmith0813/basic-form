@@ -24,33 +24,33 @@ export const TodoForm = ({ todo }) => {
             name='description'           
             type='text'
             onChange={(e) => setCurrentTodo({ ...currentTodo, description: e.target.value} )} />
-          </div>
-          <div>
-            <span>Due Date</span>
+        </div>
+        <div>
+          <span>Due Date</span>
+          <input
+            value={currentTodo?.dueDate ? moment(currentTodo.dueDate, 'MM/DD/YYYY').format('MM/DD/YYYY') : ''}
+            name='dueDate'
+            type='text'
+            onChange={(e) => setCurrentTodo({ ...currentTodo, dueDate: e.target.value })} />
+        </div>
+        <div>
+          <span>Priority</span>
+          <input
+            value={currentTodo?.priority || ''}
+            name='priority'
+            type='text'
+            onChange={(e) => setCurrentTodo({ ...currentTodo, priority: e.target.value })} />
+        </div>
+        <div>
+          <div className='complete'>
+            <span>Complete</span>
             <input
-              value={currentTodo?.dueDate ? moment(currentTodo.dueDate, 'MM/DD/YYYY').format('MM/DD/YYYY') : ''}
-              name='dueDate'
-              type='text'
-              onChange={(e) => setCurrentTodo({ ...currentTodo, dueDate: e.target.value })} />
-          </div>
-          <div>
-            <span>Priority</span>
-            <input
-              value={currentTodo?.priority || ''}
-              name='priority'
-              type='text'
-              onChange={(e) => setCurrentTodo({ ...currentTodo, priority: e.target.value })} />
-          </div>
-          <div>
-            <div className='complete'>
-              <span>Complete</span>
-              <input
-                checked={currentTodo?.complete || false}
-                name='complete' 
-                type='checkbox'
-                onChange={(e) => setCurrentTodo({ ...currentTodo, complete: e.target.checked })} />
-              </div>
-          </div>
+              checked={currentTodo?.complete || false}
+              name='complete' 
+              type='checkbox'
+              onChange={(e) => setCurrentTodo({ ...currentTodo, complete: e.target.checked })} />
+            </div>
+        </div>
         <input className='button' type='submit' onClick={handleSubmit} value={todo ? 'Edit' : 'Create' } />
         {!isNew && (
           <>
