@@ -3,16 +3,7 @@ import { TodoForm } from './todoForm';
 import { TodoProvider, useTodosContext } from './todoContext';
 
 const TodosContent = () => {
-  const {
-    url,
-    todos,
-    refetch,
-    setTodos,
-    addTodo,
-    updateTodo,
-    completeTodo,
-    deleteTodo
-  } = useTodosContext();
+  const { url, todos, refetch, setTodos, addTodo, updateTodo, completeTodo, deleteTodo } = useTodosContext();
 
   useEffect(() => {
     fetch(url)
