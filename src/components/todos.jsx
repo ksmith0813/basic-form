@@ -3,7 +3,7 @@ import { TodoForm } from './todoForm';
 import { TodoProvider, useTodosContext } from './todoContext';
 
 const TodosContent = () => {
-  const { url, todos, refetch, setTodos, addTodo } = useTodosContext();
+  const { url, todos, refetch, setTodos } = useTodosContext();
 
   useEffect(() => {
     fetch(url)
@@ -25,7 +25,7 @@ const TodosContent = () => {
     <div className='todo-container'>
       <div>
         <b>Add New Todo</b>
-        <TodoForm onSubmit={addTodo} />
+        <TodoForm />
         {todosContent}
       </div>
     </div>
