@@ -1,4 +1,4 @@
-import './App.css';
-import { Todos } from './components/todos';
+import './App.css'
+import { Todos } from './components/todos'
 
-export const App = () => <Todos />;
+export const App = () => <Todos />
